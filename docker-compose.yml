@@ -1,0 +1,35 @@
+version: '3'
+services:
+  kafka-dev:
+    image: landoop/fast-data-dev:latest
+    ports:
+      - "3030:3030"
+      - "2181:2181"
+      - "9092:9092"
+      - "9093:9093"
+      - "8081:8081"
+    environment:
+      - SAMPLEDATA=0
+      - RUNTESTS=0
+      - CONNECTORS=
+      - DISABLE_JMX=1
+      - RUNNING_SAMPLEDATA=0
+
+  crypto-producer:
+    build:
+      context: crypto-producer
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka-dev
+    environment:
+      - KAFKA_URL=kafka-dev:9092
+
+  crypto-consumer:
+    build:
+      context: crypto-consumer
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka-dev
+      - crypto-producer
+    environment:
+      - KAFKA_URL=kafka-dev:9092

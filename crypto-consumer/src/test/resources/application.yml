@@ -1,0 +1,19 @@
+kafka:
+  producer:
+    bootstrap-servers: 127.0.0.1:9092
+    topic: "btc_weight_average"
+    transactional-id: "prod-1"
+  consumer:
+    bootstrap-servers: 127.0.0.1:9092
+    topic: "btc_usd"
+    group-id: "my-group"
+
+
+exchanges-configuration:
+  exchanges:
+    - name: "hitbtc"
+      coefficient: 1
+    - name: "bitfinex"
+      coefficient: 1
+    - name: "okcoin"
+      coefficient: 1
